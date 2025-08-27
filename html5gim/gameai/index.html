@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .storyboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        
+        .title {
+            text-align: center;
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .storyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .story-panel {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .story-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+        
+        .panel-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .panel-title {
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-right: 40px;
+        }
+        
+        .panel-visual {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .panel-description {
+            color: #ecf0f1;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .panel-mechanics {
+            background: rgba(78, 205, 196, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #4ecdc4;
+        }
+        
+        .mechanics-title {
+            color: #4ecdc4;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .mechanics-text {
+            color: #bdc3c7;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        /* Visual elements for each panel */
+        .player-ship {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #00ffff, #0099ff);
+            border-radius: 3px;
+            box-shadow: 0 0 15px #00ffff;
+        }
+        
+        .target-block {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border-radius: 3px;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        .bullet {
+            position: absolute;
+            width: 3px;
+            height: 12px;
+            background: #00ffff;
+            border-radius: 2px;
+            box-shadow: 0 0 8px #00ffff;
+        }
+        
+        .explosion {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff6b6b, #ff8e53, transparent);
+            animation: explode 0.5s ease-out;
+        }
+        
+        .ui-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 12px;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .game-over-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 107, 107, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        @keyframes explode {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+        
+        .stars {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="storyboard-container">
+        <h1 class="title">BLOCK SHOOTER - GAME STORYBOARD</h1>
+        
+        <div class="storyboard-grid">
+            <!-- Panel 1: Game Start -->
+            <div class="story-panel">
+                <div class="panel-number">1</div>
+                <h3 class="panel-title">Game Start - Ready to Play</h3>
+                <div class="panel-visual" id="panel1">
+                    <div class="stars" style="top: 20px; left: 50px;"></div>
+                    <div class="stars" style="top: 60px; left: 150px;"></div>
+                    <div class="stars" style="top: 40px; left: 250px;"></div>
+                    <div class="stars" style="top: 80px; left: 300px;"></div>
+                    <div class="player-ship"></div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 0</div>
+                    <div class="ui-element" style="top: 10px; right: 10px;">Lives: 3</div>
+                </div>
+                <p class="panel-description">
+                    Player mulai game dengan karakter ship di bagian bawah layar. UI menampilkan score 0 dan lives 3. Background menampilkan bintang-bintang yang berkedip.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• Arrow keys untuk movement<br>• SPACE untuk shoot<br>• 3 lives system</div>
+                </div>
+            </div>
+
+            <!-- Panel 2: Target Spawning -->
+            <div class="story-panel">
+                <div class="panel-number">2</div>
+                <h3 class="panel-title">Target Spawning</h3>
+                <div class="panel-visual" id="panel2">
+                    <div class="stars" style="top: 30px; left: 80px;"></div>
+                    <div class="stars" style="top: 70px; left: 200px;"></div>
+                    <div class="target-block" style="top: 20px; left: 100px; background: #ff6b6b; color: #ff6b6b;"></div>
+                    <div class="target-block" style="top: 60px; left: 200px; background: #4ecdc4; color: #4ecdc4;"></div>
+                    <div class="player-ship"></div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 0</div>
+                    <div class="ui-element" style="top: 10px; right: 10px;">Lives: 3</div>
+                </div>
+                <p class="panel-description">
+                    Target blocks mulai spawn dari atas layar dengan warna-warna berbeda. Setiap target memiliki rotasi dan kecepatan jatuh yang berbeda-beda.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• Max 3 targets on screen<br>• 2 second spawn interval<br>• Random colors & rotation</div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Shooting -->
+            <div class="story-panel">
+                <div class="panel-number">3</div>
+                <h3 class="panel-title">Player Shooting</h3>
+                <div class="panel-visual" id="panel3">
+                    <div class="stars" style="top: 25px; left: 60px;"></div>
+                    <div class="stars" style="top: 65px; left: 180px;"></div>
+                    <div class="target-block" style="top: 40px; left: 150px; background: #f39c12; color: #f39c12;"></div>
+                    <div class="bullet" style="bottom: 80px; left: 50%;"></div>
+                    <div class="bullet" style="bottom: 120px; left: 50%;"></div>
+                    <div class="player-ship"></div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 0</div>
+                    <div class="ui-element" style="top: 10px; right: 10px;">Lives: 3</div>
+                </div>
+                <p class="panel-description">
+                    Player menembakkan peluru dengan menekan SPACE. Peluru bergerak ke atas dengan trail effect berwarna cyan yang menarik.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• SPACE key to shoot<br>• Bullets have trail effect<br>• Upward trajectory</div>
+                </div>
+            </div>
+
+            <!-- Panel 4: Hit Target -->
+            <div class="story-panel">
+                <div class="panel-number">4</div>
+                <h3 class="panel-title">Target Hit - Score!</h3>
+                <div class="panel-visual" id="panel4">
+                    <div class="stars" style="top: 35px; left: 70px;"></div>
+                    <div class="stars" style="top: 75px; left: 190px;"></div>
+                    <div class="explosion" style="top: 60px; left: 140px;"></div>
+                    <div class="player-ship"></div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 10</div>
+                    <div class="ui-element" style="top: 10px; right: 10px;">Lives: 3</div>
+                </div>
+                <p class="panel-description">
+                    Ketika peluru mengenai target, terjadi ledakan partikel yang spektakuler. Score bertambah +10 poin dan target menghilang.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• +10 points per hit<br>• Particle explosion effect<br>• Target destroyed</div>
+                </div>
+            </div>
+
+            <!-- Panel 5: Miss Shot -->
+            <div class="story-panel">
+                <div class="panel-number">5</div>
+                <h3 class="panel-title">Missed Shot - Life Lost</h3>
+                <div class="panel-visual" id="panel5">
+                    <div class="stars" style="top: 40px; left: 90px;"></div>
+                    <div class="stars" style="top: 80px; left: 220px;"></div>
+                    <div class="target-block" style="top: 80px; left: 200px; background: #9b59b6; color: #9b59b6;"></div>
+                    <div class="player-ship"></div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 10</div>
+                    <div class="ui-element" style="top: 10px; right: 10px; background: rgba(255, 107, 107, 0.8);">Lives: 2</div>
+                </div>
+                <p class="panel-description">
+                    Jika peluru keluar dari layar tanpa mengenai target, player kehilangan 1 nyawa. Lives counter berkurang dan berubah warna menjadi merah.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• -1 life per miss<br>• UI shows life count<br>• Warning color change</div>
+                </div>
+            </div>
+
+            <!-- Panel 6: Game Over -->
+            <div class="story-panel">
+                <div class="panel-number">6</div>
+                <h3 class="panel-title">Game Over Screen</h3>
+                <div class="panel-visual" id="panel6">
+                    <div class="stars" style="top: 45px; left: 100px;"></div>
+                    <div class="stars" style="top: 85px; left: 250px;"></div>
+                    <div class="player-ship" style="opacity: 0.3;"></div>
+                    <div class="game-over-screen">
+                        <div>GAME OVER</div>
+                        <div style="margin: 10px 0;">Final Score: 50</div>
+                        <div style="background: #ff8e53; padding: 5px 10px; border-radius: 5px; margin-top: 10px;">RESTART</div>
+                    </div>
+                    <div class="ui-element" style="top: 10px; left: 10px;">Score: 50</div>
+                    <div class="ui-element" style="top: 10px; right: 10px; background: rgba(255, 0, 0, 0.8);">Lives: 0</div>
+                </div>
+                <p class="panel-description">
+                    Setelah 3 miss, game berakhir. Muncul popup Game Over dengan final score dan tombol restart untuk memulai game baru.
+                </p>
+                <div class="panel-mechanics">
+                    <div class="mechanics-title">MECHANICS:</div>
+                    <div class="mechanics-text">• Game ends at 0 lives<br>• Shows final score<br>• Restart button available</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; color: white; text-align: center;">
+            <h3 style="color: #4ecdc4; margin-bottom: 15px;">GAME FLOW SUMMARY</h3>
+            <p style="line-height: 1.6; font-size: 0.9rem;">
+                <strong>START</strong> → <strong>SPAWN TARGETS</strong> → <strong>SHOOT</strong> → <strong>HIT/MISS</strong> → <strong>SCORE/LOSE LIFE</strong> → <strong>CONTINUE/GAME OVER</strong>
+            </p>
+            <div style="margin-top: 15px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px;">
+                <div style="background: rgba(0, 255, 255, 0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">Progressive Difficulty</div>
+                <div style="background: rgba(255, 107, 107, 0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">3-Life System</div>
+                <div style="background: rgba(78, 205, 196, 0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">Aesthetic Effects</div>
+                <div style="background: rgba(249, 202, 36, 0.2); padding: 8px 15px; border-radius: 20px; font-size: 0.8rem;">Score-based Progression</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some animation to make it more lively
+        function animateStars() {
+            const stars = document.querySelectorAll('.stars');
+            stars.forEach((star, index) => {
+                star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+        
+        // Add CSS for twinkling animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes twinkle {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        animateStars();
+        
+        // Add some interactive hover effects
+        const panels = document.querySelectorAll('.story-panel');
+        panels.forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.style.transform = 'translateY(-5px)';
+                panel.style.transition = 'transform 0.3s ease';
+            });
+            
+            panel.addEventListener('mouseleave', () => {
+                panel.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
